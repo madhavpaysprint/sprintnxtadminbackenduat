@@ -1,4 +1,5 @@
 <?php
+
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -12,12 +13,12 @@
 |
  */
 $router->get('/', function () use ($router) {
-    return "Admin portal";
+    return "Admin portal Test";
 });
 $router->post('getrefid', 'ExampleController@QrHit');
 $router->post('cib-registration-status', 'BussinessBanking\PartnerRequests@getCibStatus');
 $router->get('/get-files', 'FileController@getFileUrl');
-$router->post('upload-normal-file','FileController@normal_file_upload');
+$router->post('upload-normal-file', 'FileController@normal_file_upload');
 $router->get('/display', 'FileController@display');
 $router->group(['middleware' => 'checkip'], function () use ($router) {
     //auth routes
@@ -33,8 +34,7 @@ $router->group(['middleware' => 'checkip'], function () use ($router) {
         $router->group(['middleware' => ['auth:api']], function () use ($router) {
             $router->post('changePassword', ['as' => 'change-Password', 'uses' => 'Auth\ResetController@changePassword']);
             $router->post('user-permissions', 'Auth\LoginController@userPermissions');
-            $router->post('leftPanel', ['as' => 'left-panel','uses' => 'Auth\LoginController@getLeftPanel']);
-
+            $router->post('leftPanel', ['as' => 'left-panel', 'uses' => 'Auth\LoginController@getLeftPanel']);
         });
     });
     $router->post('search-merchant', ['as' => 'search-merchant', 'uses' => 'User\UserController@searchUser']);
@@ -43,7 +43,7 @@ $router->group(['middleware' => 'checkip'], function () use ($router) {
         $router->post('admin-parent-menu', ['as' => 'admin-parent-menu', 'uses' => 'Master\AdminConfigController@adminParentMenu']);
         $router->post('front-parent-menu', ['as' => 'front-parent-menu', 'uses' => 'Master\FrontSidebarController@frontParentMenu']);
     });
-    $router->group(['middleware' => ['auth:api','checkperm']], function () use ($router) {
+    $router->group(['middleware' => ['auth:api', 'checkperm']], function () use ($router) {
         $router->group(['prefix' => 'user'], function () use ($router) {
             $router->post('register', ['as' => 'admin', 'uses' => 'Auth\RegisterController@register']);
             $router->post('list-user', ['as' => 'user-list', 'uses' => 'User\UserController@listUsers']);
@@ -78,16 +78,16 @@ $router->group(['middleware' => 'checkip'], function () use ($router) {
         $router->group(['prefix' => 'charges'], function () use ($router) {
             $router->post('getcharges', ['as' => 'get-charges', 'uses' => 'ChargesController@getCharges']);
             $router->post('update-charges', ['as' => 'save-charges', 'uses' => 'ChargesController@updateCharges']);
-            $router->post('default-charges',['as' => 'payments', 'uses' => 'ChargesController@defaultCharges']);
-            $router->post('update-default-charges',['as' => 'payments', 'uses' => 'ChargesController@updateDefaultCharges']);
-            $router->post('search-users',['as' => 'user-credentials', 'uses' => 'ChargesController@searchUser']);
-            $router->post('active-banks',['as' => 'user-credentials', 'uses' => 'ChargesController@activeBanks']);
+            $router->post('default-charges', ['as' => 'payments', 'uses' => 'ChargesController@defaultCharges']);
+            $router->post('update-default-charges', ['as' => 'payments', 'uses' => 'ChargesController@updateDefaultCharges']);
+            $router->post('search-users', ['as' => 'user-credentials', 'uses' => 'ChargesController@searchUser']);
+            $router->post('active-banks', ['as' => 'user-credentials', 'uses' => 'ChargesController@activeBanks']);
         });
         // Created by @vinay on 10-10-2024
         $router->group(['prefix' => 'funds'], function () use ($router) {
-            $router->post('manual-funding-initial',['as' => 'manual-funding', 'uses' => 'Master\FundsController@manualFundingInitial']);
-            $router->post('manual-funding-final',['as' => 'manual-funding', 'uses' => 'Master\FundsController@manualFundingFinal']);
-            $router->post('manual-funding-history',['as' => 'manual-funding', 'uses' => 'Master\FundsController@manualFundingHistory']);
+            $router->post('manual-funding-initial', ['as' => 'manual-funding', 'uses' => 'Master\FundsController@manualFundingInitial']);
+            $router->post('manual-funding-final', ['as' => 'manual-funding', 'uses' => 'Master\FundsController@manualFundingFinal']);
+            $router->post('manual-funding-history', ['as' => 'manual-funding', 'uses' => 'Master\FundsController@manualFundingHistory']);
         });
         // Created by @vinay on 11-10-2024
         $router->group(['prefix' => 'account'], function () use ($router) {
@@ -201,7 +201,6 @@ $router->group(['middleware' => 'checkip'], function () use ($router) {
             $router->post('get-va-transactions', ['as' => 'dashboard', 'uses' => 'DashboardController@getVaTransactions']);
             $router->post('get-qr-transactions', ['as' => 'dashboard', 'uses' => 'DashboardController@getQrTransactions']);
             $router->post('get-payout-transactions', ['as' => 'dashboard', 'uses' => 'DashboardController@getPayoutTransactions']);
-
         });
 
         $router->group(['prefix' => 'payout'], function () use ($router) {
