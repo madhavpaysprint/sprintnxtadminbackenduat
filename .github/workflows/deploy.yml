@@ -1,0 +1,31 @@
+name: Deploy
+
+# Trigger the workflow on push events on the UAT branch
+on:
+  push:
+    branches:
+      - UAT
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSHKEY }}
+          script: |
+            cd /var/www/html/adminUATMadhav/sprintnxtadminbackenduat
+            git config --global --add safe.directory /var/www/html/adminUATMadhav/sprintnxtadminbackenduat  # Add the directory as a safe directory
+            git stash  # Stash any local changes
+            git pull origin UAT  # Pull the latest changes from UAT
+            git stash pop  # Apply the stashed changes after pulling
+            chmod +x ./.scripts/deploy.sh  # Ensure your deploy script is executable
+            ./.scripts/deploy.sh  # Run your deployment script
