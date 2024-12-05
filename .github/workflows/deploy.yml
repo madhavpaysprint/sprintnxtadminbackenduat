@@ -4,8 +4,14 @@
     host: ${{ secrets.SSH_HOST }}
     username: ${{ secrets.SSH_USER }}
     key: ${{ secrets.SSH_PRIVATE_KEY }}
+    port: 22 # Ensure this is the correct port; change if your SSH server uses a non-default port.
     command_timeout: 300s
-    command: |
-      ssh -v -o StrictHostKeyChecking=no user@host
+    script: |
+      set -x  # Enable debugging to print each command before execution
+      echo "Starting deployment..."
+      echo "Current directory: $(pwd)"
       cd /var/www/html/adminUATMadhav/sprintnxtadminbackenduat
+      echo "Directory changed to $(pwd)"
+      ls -la  # List files in the current directory to confirm access
+      chmod +x ./deploy.sh
       ./deploy.sh
