@@ -13,7 +13,7 @@
 |
  */
 $router->get('/', function () use ($router) {
-    return "Admin portal TEST";
+    return "Admin portal TEST sanu this side";
 });
 $router->post('getrefid', 'ExampleController@QrHit');
 $router->post('cib-registration-status', 'BussinessBanking\PartnerRequests@getCibStatus');
