@@ -25,7 +25,7 @@ jobs:
             cd /var/www/html/adminUATMadhav/sprintnxtadminbackenduat
             git config --global --add safe.directory /var/www/html/adminUATMadhav/sprintnxtadminbackenduat  # Add the directory as a safe directory
             git stash  # Stash any local changes
-            git pull origin UAT  # Pull the latest changes from UAT
+            sudo git pull origin UAT  # Pull the latest changes from UAT
             git stash pop  # Apply the stashed changes after pulling
             sudo chmod +x ./.scripts/deploy.sh  # Ensure your deploy script is executable
             sudo ./.scripts/deploy.sh  # Run your deployment script
