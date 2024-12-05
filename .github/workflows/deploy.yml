@@ -27,6 +27,6 @@ jobs:
             git stash  # Stash any local changes
             git pull origin UAT  # Pull the latest changes from UAT
             git stash pop  # Apply the stashed changes after pulling
-            chmod +x ./.scripts/deploy.sh  # Ensure your deploy script is executable
-            ./.scripts/deploy.sh  # Run your deployment script
+            sudo chmod +x ./.scripts/deploy.sh  # Ensure your deploy script is executable
+            sudo ./.scripts/deploy.sh  # Run your deployment script
           debug: true
