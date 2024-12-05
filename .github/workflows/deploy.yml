@@ -1,17 +1,29 @@
-- name: Deploy via SSH
-  uses: appleboy/ssh-action@master
-  with:
-    host: ${{ secrets.SSH_HOST }}
-    username: ${{ secrets.SSH_USER }}
-    key: ${{ secrets.SSH_PRIVATE_KEY }}
-    port: 22 # Ensure this is the correct port; change if your SSH server uses a non-default port.
-    command_timeout: 300s
-    script: |
-      set -x  # Enable debugging to print each command before execution
-      echo "Starting deployment..."
-      echo "Current directory: $(pwd)"
-      cd /var/www/html/adminUATMadhav/sprintnxtadminbackenduat
-      echo "Directory changed to $(pwd)"
-      ls -la  # List files in the current directory to confirm access
-      chmod +x ./deploy.sh
-      ./deploy.sh
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - UAT # Run the workflow when code is pushed to the UAT branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22 # Ensure this is the correct port
+          command_timeout: 300s
+          script: |
+            set -x
+            echo "Starting deployment..."
+            cd /var/www/html/adminUATMadhav/sprintnxtadminbackenduat
+            ls -la
+            chmod +x ./deploy.sh
+            ./deploy.sh
