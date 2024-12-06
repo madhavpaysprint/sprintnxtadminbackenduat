@@ -1,6 +1,6 @@
 name: Deploy
 
-# Trigger the workflow on push events on the UAT branch
+# Trigger the workflow on pushes to the UAT branch
 on:
   push:
     branches:
@@ -14,6 +14,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Check VPN Connection and Server Reachability
+        run: |
+          # Check if the server is reachable (requires VPN)
+          if ! ping -c 3 10.50.2.185; then
+            echo "VPN is not active or server is unreachable. Exiting."
+            exit 1
+          fi
+          echo "Server is reachable. Proceeding with deployment."
+
       - name: Deploy to Server
         uses: appleboy/ssh-action@master
         with:
@@ -23,10 +32,10 @@ jobs:
           key: ${{ secrets.SSHKEY }}
           script: |
             cd /var/www/html/adminUATMadhav/sprintnxtadminbackenduat
-            git config --global --add safe.directory /var/www/html/adminUATMadhav/sprintnxtadminbackenduat  # Add the directory as a safe directory
-            git stash  # Stash any local changes
-            sudo git pull origin UAT  # Pull the latest changes from UAT
-            git stash pop  # Apply the stashed changes after pulling
-            sudo chmod +x ./.scripts/deploy.sh  # Ensure your deploy script is executable
-            sudo ./.scripts/deploy.sh  # Run your deployment script
+            git config --global --add safe.directory /var/www/html/adminUATMadhav/sprintnxtadminbackenduat
+            git stash
+            sudo git pull origin UAT
+            git stash pop
+            sudo chmod +x ./.scripts/deploy.sh
+            sudo ./.scripts/deploy.sh
           debug: true
